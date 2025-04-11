@@ -1,0 +1,25 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Backend/FileContentIndex
+/.vs/Backend/v17
+/.vs/BtWebAPI/DesignTimeBuild
+/.vs/BtWebAPI/v16
+/.vs/BtWebAPI/v17
+/.vs/ExpensesWebAPI/FileContentIndex
+/.vs/ExpensesWebAPI/DesignTimeBuild
+/.vs/ExpensesWebAPI/v17
+/.vs/ProjectEvaluation
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json
+/BusinessInterfaceLayer/bin/Debug/net8.0
+/BusinessInterfaceLayer/obj
+/BusinessLogicLayer/bin/Debug/net8.0
+/BusinessLogicLayer/obj
+/DataLayer/bin/Debug/net8.0
+/DataLayer/obj
+/ModelLayer/bin/Debug/net8.0
+/ModelLayer/obj
+/WepAPI/bin/Debug/net8.0
+/WepAPI/obj
