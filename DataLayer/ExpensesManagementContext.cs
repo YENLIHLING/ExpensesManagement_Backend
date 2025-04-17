@@ -1,17 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ModelLayer;
-using System.Threading.Tasks;
 
 namespace DataLayer
 {
     public class ExpensesManagementContext : DbContext 
     {
-        private const string MYCONN = "server=127.0.0.1; port=3333; uid=root; pwd=root; database=ExpensesManagement;";
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var mySQVersion = new MySqlServerVersion(new Version(10, 4, 17));
-            optionsBuilder.UseMySql(MYCONN, mySQVersion); 
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            var connStr = configuration.GetConnectionString("DefaultConnection"); 
+            optionsBuilder.UseMySql(connStr, ServerVersion.AutoDetect(connStr)); 
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

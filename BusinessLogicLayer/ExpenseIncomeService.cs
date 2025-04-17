@@ -5,27 +5,27 @@ using ModelLayer;
 
 namespace BusinessLogicLayer
 {
-    public class ExpenseIncomeRepository : IExpenseIncomeRepository
+    public class ExpenseIncomeService : IExpenseIncomeService
     {
 
         private readonly ExpensesManagementContext _expensesManagementContext;
 
-        public ExpenseIncomeRepository(ExpensesManagementContext expensesManagementContext)
+        public ExpenseIncomeService(ExpensesManagementContext expensesManagementContext)
         {
             _expensesManagementContext = expensesManagementContext;
         }
 
-        private List<PersonalModel> RetrieveIncomeExpense()
+        private Task<List<PersonalModel>> RetrieveIncomeExpense()
         {
             return _expensesManagementContext.personal
                 .Include(x => x.incomes)
                 .Include(x => x.expenses)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Task<List<DataGridModel>> RetrieveIncomeExpenseTable()
+        public async Task<List<DataGridModel>> RetrieveIncomeExpenseTable()
         {
-            var personals = RetrieveIncomeExpense();
+            var personals = await RetrieveIncomeExpense();
 
             var expensesDataGridModels = new List<DataGridModel>();
 
@@ -49,24 +49,24 @@ namespace BusinessLogicLayer
 
             });
 
-            return Task.FromResult(expensesDataGridModels); 
+            return expensesDataGridModels;
         }
 
         public async Task<int> AddorUpdateIncomesExpenses(ExpensesIncomesModel expensesIncomes)
         {
-            var searchResult = (from e in _expensesManagementContext.personal
-                                where e.name == expensesIncomes.name
-                                select e)
-                                .ToList();
+            var searchResult = await (from e in _expensesManagementContext.personal
+                                      where e.name == expensesIncomes.name
+                                      select e)
+                                .ToListAsync();
 
             if (searchResult.Any())
             {
-                var values = _expensesManagementContext
+                var values = await _expensesManagementContext
                     .personal
                     .Include(x => x.expenses)
                     .Include(x => x.incomes)
                     .Where(i => i.id == searchResult.First().id)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 if (values?.expenses != null)
                 {
@@ -110,9 +110,7 @@ namespace BusinessLogicLayer
 
             }
 
-            var result = await Task.Run(() => _expensesManagementContext.SaveChanges()); 
-
-            return result; 
+            return await _expensesManagementContext.SaveChangesAsync(); 
         }
     }
 }

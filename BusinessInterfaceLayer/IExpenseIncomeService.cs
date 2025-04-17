@@ -2,7 +2,7 @@
 
 namespace BusinessInterfaceLayer
 {
-    public interface IExpenseIncomeRepository
+    public interface IExpenseIncomeService
     {
         Task<int> AddorUpdateIncomesExpenses(ExpensesIncomesModel expensesIncomes);
         Task<List<DataGridModel>> RetrieveIncomeExpenseTable();

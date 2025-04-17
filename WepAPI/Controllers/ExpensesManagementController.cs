@@ -1,5 +1,4 @@
 ﻿using BusinessInterfaceLayer;
-using BusinessLogicLayer;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer;
 
@@ -9,9 +8,9 @@ namespace WepAPI.Controllers
     [Route("[controller]")]
     public class ExpensesManagementController : Controller
     {
-        private readonly IExpenseIncomeRepository _iIncomeExpenseRepository;
+        private readonly IExpenseIncomeService _iIncomeExpenseRepository;
 
-        public ExpensesManagementController(IExpenseIncomeRepository iIncomeExpenseRepository)
+        public ExpensesManagementController(IExpenseIncomeService iIncomeExpenseRepository)
         {
             _iIncomeExpenseRepository = iIncomeExpenseRepository;
         }
