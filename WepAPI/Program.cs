@@ -35,11 +35,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-/* Creating microsoft unity Container*/
-//UnityContainer container = new UnityContainer();
-//container.RegisterType<ITokenRepository, TokenRepository>(new HierarchicalLifetimeManager());
-
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
