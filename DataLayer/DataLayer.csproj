@@ -16,4 +16,8 @@
     <ProjectReference Include="..\ModelLayer\ModelLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DatabaseScript\" />
+  </ItemGroup>
+
 </Project>

@@ -112,5 +112,13 @@ namespace BusinessLogicLayer
 
             return await _expensesManagementContext.SaveChangesAsync(); 
         }
+
+        public async Task<int> DeleteIncomesExpenses(int personalId)
+        {
+            var personal = _expensesManagementContext.personal.Single(p => p.id == personalId);
+            _expensesManagementContext.Remove(_expensesManagementContext.personal.Single(p => p.id == personalId));
+
+            return await _expensesManagementContext.SaveChangesAsync();
+        }
     }
 }
