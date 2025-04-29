@@ -10,9 +10,9 @@ namespace WepAPI.Controllers
     {
         private readonly IExpenseIncomeService _iIncomeExpenseRepository;
 
-        public ExpensesManagementController(IExpenseIncomeService iIncomeExpenseRepository)
+        public ExpensesManagementController(IExpenseIncomeService iIncomeExpenseService)
         {
-            _iIncomeExpenseRepository = iIncomeExpenseRepository;
+            _iIncomeExpenseRepository = iIncomeExpenseService;
         }
 
         [HttpGet("RetrieveIncomesExpenses")]
@@ -29,7 +29,7 @@ namespace WepAPI.Controllers
             }
         }
 
-        [HttpPost("AddOrExpensesIncomes")]
+        [HttpPost("AddOrUpdateExpensesIncomes")]
         public async Task<IActionResult> AddOrUpdateExpensesIncomes(ExpensesIncomesModel expensesIncomes)
         {
             if (expensesIncomes == null)
@@ -39,7 +39,7 @@ namespace WepAPI.Controllers
             try
             {
                 var response = await _iIncomeExpenseRepository.AddorUpdateIncomesExpenses(expensesIncomes);
-                return Ok(response);
+                return new JsonResult(response);
             }
             catch
             {
