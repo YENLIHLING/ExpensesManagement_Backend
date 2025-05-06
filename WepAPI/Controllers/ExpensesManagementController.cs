@@ -39,7 +39,10 @@ namespace WepAPI.Controllers
             try
             {
                 var response = await _iIncomeExpenseRepository.AddorUpdateIncomesExpenses(expensesIncomes);
-                return new JsonResult(response);
+                return new JsonResult(new ResultModel
+                {
+                    status = response
+                });
             }
             catch
             {
