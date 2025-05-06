@@ -15,9 +15,9 @@ namespace BusinessLogicLayer
             _expensesManagementContext = expensesManagementContext;
         }
 
-        private Task<List<PersonalModel>> RetrieveIncomeExpense()
+        private async Task<List<PersonalModel>> RetrieveIncomeExpense()
         {
-            return _expensesManagementContext.personal
+            return await _expensesManagementContext.personal
                 .Include(x => x.incomes)
                 .Include(x => x.expenses)
                 .ToListAsync();
