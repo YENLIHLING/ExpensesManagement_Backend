@@ -3,3 +3,13 @@
 ################################################################################
 
 /.vs
+/BusinessInterfaceLayer/obj
+/BusinessInterfaceLayer/bin/Debug/net8.0
+/BusinessLogicLayer/bin/Debug/net8.0
+/BusinessLogicLayer/obj
+/DataLayer/bin/Debug/net8.0
+/DataLayer/obj
+/ModelLayer/bin/Debug/net8.0
+/ModelLayer/obj
+/WepAPI/bin/Debug/net8.0
+/WepAPI/obj
