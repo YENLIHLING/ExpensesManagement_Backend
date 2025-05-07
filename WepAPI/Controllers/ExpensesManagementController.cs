@@ -44,9 +44,26 @@ namespace WepAPI.Controllers
                     status = response
                 });
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpDelete("DeleteIncomesExpenses")]
+        public async Task<IActionResult> DeleteIncomesExpenses(int id)
+        {
+            try
+            {
+                var response = await _iIncomeExpenseRepository.DeleteIncomesExpenses(id);
+                return new JsonResult(new ResultModel
+                {
+                    status = response
+                });
+            }
+            catch (Exception ex)
+            { 
+                throw new Exception(ex.Message);
             }
         }
     }
