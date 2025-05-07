@@ -56,7 +56,10 @@ namespace WepAPI.Controllers
             try
             {
                 var response = await _iIncomeExpenseRepository.DeleteIncomesExpenses(id);
-                return Ok(response);
+                return new JsonResult(new ResultModel
+                {
+                    status = response
+                });
             }
             catch (Exception ex)
             { 
