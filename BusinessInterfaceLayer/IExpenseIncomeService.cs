@@ -6,5 +6,6 @@ namespace BusinessInterfaceLayer
     {
         Task<int> AddorUpdateIncomesExpenses(ExpensesIncomesModel expensesIncomes);
         Task<List<DataGridModel>> RetrieveIncomeExpenseTable();
+        Task<int> DeleteIncomesExpenses(int personalId);
     }
 }
