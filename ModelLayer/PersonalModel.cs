@@ -7,7 +7,8 @@ namespace ModelLayer
         [Key]
         public int id { get; set; }
         public required string name { get; set; }
-        public List<IncomeModel> incomes { set;  get; } = new List<IncomeModel>();
-        public List<ExpenseModel> expenses { set;  get; } = new List<ExpenseModel>();
+        public string passwordHash { get; set; }
+        public PersonalExpensesModel? PersonalExpenses { get; set; }
+
     }
 }

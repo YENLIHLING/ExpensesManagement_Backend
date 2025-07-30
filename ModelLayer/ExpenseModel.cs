@@ -11,6 +11,6 @@ namespace ModelLayer
         [ForeignKey("OrderId")]
         public int personalId { get; set; }
         public decimal expense { get; set; }
-        public PersonalModel? personal { get; set; }
+        public PersonalExpensesModel? personal { get; set; }
     }
 }

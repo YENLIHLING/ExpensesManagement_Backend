@@ -15,9 +15,10 @@ namespace BusinessLogicLayer
             _expensesManagementContext = expensesManagementContext;
         }
 
-        private async Task<List<PersonalModel>> RetrieveIncomeExpense()
+        private async Task<List<PersonalExpensesModel>> RetrieveIncomeExpense()
         {
-            return await _expensesManagementContext.personal
+            return await _expensesManagementContext.personalExpenses
+                .Include(x => x.personal)
                 .Include(x => x.incomes)
                 .Include(x => x.expenses)
                 .ToListAsync();
@@ -39,8 +40,8 @@ namespace BusinessLogicLayer
                 expensesDataGridModels.Add(
                 new DataGridModel
                 {
-                    id = x.id,
-                    name = x.name,
+                    id = x.personal.id,
+                    name = x.personal.name,
 
                     total_incomes = totalIncome,
                     total_expenses = totalExpenses,
@@ -54,18 +55,18 @@ namespace BusinessLogicLayer
 
         public async Task<int> AddorUpdateIncomesExpenses(ExpensesIncomesModel expensesIncomes)
         {
-            var searchResult = await (from e in _expensesManagementContext.personal
-                                      where e.name == expensesIncomes.name
+            var searchResult = await (from e in _expensesManagementContext.personalExpenses
+                                      where e.personal.name == expensesIncomes.name
                                       select e)
                                 .ToListAsync();
 
             if (searchResult.Any())
             {
                 var values = await _expensesManagementContext
-                    .personal
+                    .personalExpenses
                     .Include(x => x.expenses)
                     .Include(x => x.incomes)
-                    .Where(i => i.id == searchResult.First().id)
+                    .Where(i => i.personal.id == searchResult.First().personal.id)
                     .FirstOrDefaultAsync();
 
                 if (values?.expenses != null)
@@ -86,9 +87,13 @@ namespace BusinessLogicLayer
             }
             else
             {
-                var personal = new PersonalModel()
+                var personal = new PersonalExpensesModel()
                 { 
-                    name = expensesIncomes.name,
+                    //name = expensesIncomes.name,
+                    personal = new PersonalModel
+                    {
+                        name = expensesIncomes.name
+                    },
 
                     expenses = new List<ExpenseModel>()
                     {
@@ -106,7 +111,7 @@ namespace BusinessLogicLayer
                         }
                     }
                 };
-                _expensesManagementContext.personal.Add(personal);
+                _expensesManagementContext.personalExpenses.Add(personal);
 
             }
 
@@ -115,8 +120,8 @@ namespace BusinessLogicLayer
 
         public async Task<int> DeleteIncomesExpenses(int personalId)
         {
-            var personal = await _expensesManagementContext.personal.SingleAsync(p => p.id == personalId);
-            _expensesManagementContext.Remove(_expensesManagementContext.personal.Single(p => p.id == personalId));
+            var personal = await _expensesManagementContext.personalExpenses.SingleAsync(p => p.personal.id == personalId);
+            _expensesManagementContext.Remove(_expensesManagementContext.personalExpenses.Single(p => p.personal.id == personalId));
 
             return await _expensesManagementContext.SaveChangesAsync();
         }
