@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer;
+using System.Net;
 
 namespace WepAPI.Controllers
 {
@@ -11,14 +12,16 @@ namespace WepAPI.Controllers
     public class ExpensesManagementController : Controller
     {
         private readonly IExpenseIncomeService _iIncomeExpenseRepository;
+        private readonly ILogger<ExpensesManagementController> _logger;
 
-        public ExpensesManagementController(IExpenseIncomeService iIncomeExpenseService)
+        public ExpensesManagementController(IExpenseIncomeService iIncomeExpenseService, ILogger<ExpensesManagementController> logger)
         {
             _iIncomeExpenseRepository = iIncomeExpenseService;
+            _logger = logger;
         }
 
         [HttpGet("RetrieveIncomesExpenses")]
-        public async Task<List<DataGridModel>> RetrieveIncomesExpenses()
+        public async Task<ActionResult<List<DataGridModel>>> RetrieveIncomesExpenses()
         {
             try
             {
@@ -27,28 +30,31 @@ namespace WepAPI.Controllers
             catch (Exception ex) 
             {
 
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, "Error retrieving incomes and expenses data.");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while retrieving data.");
             }
         }
 
         [HttpPost("AddOrUpdateExpensesIncomes")]
-        public async Task<IActionResult> AddOrUpdateExpensesIncomes(ExpensesIncomesModel expensesIncomes)
+        public async Task<IActionResult> AddOrUpdateExpensesIncomes(AddOrUpdateModel addOrUpdateModel)
         {
-            if (expensesIncomes == null)
+            if (addOrUpdateModel == null)
             {
-                return BadRequest();
+                _logger.LogError("Input data is required.");
+                return StatusCode((int)HttpStatusCode.BadRequest, "Input data is required.");
             }
             try
             {
-                var response = await _iIncomeExpenseRepository.AddorUpdateIncomesExpenses(expensesIncomes);
+                var response = await _iIncomeExpenseRepository.AddorUpdateIncomesExpenses(addOrUpdateModel);
                 return new JsonResult(new ResultModel
                 {
-                    status = response
+                    status = (int)HttpStatusCode.OK
                 });
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, "Error adding or updating expenses/incomes.");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while processing your request.");
             }
         }
 
@@ -60,12 +66,13 @@ namespace WepAPI.Controllers
                 var response = await _iIncomeExpenseRepository.DeleteIncomesExpenses(id);
                 return new JsonResult(new ResultModel
                 {
-                    status = response
+                    status = (int)HttpStatusCode.OK
                 });
             }
             catch (Exception ex)
-            { 
-                throw new Exception(ex.Message);
+            {
+                _logger.LogError(ex, "Error deleting incomes/expenses for id {Id}.", id);
+                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while deleting the record.");
             }
         }
     }

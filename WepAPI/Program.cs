@@ -34,8 +34,6 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
-
-
 var allowSpecificOrigins = "_allowSpecificOrigins";
 builder.Services.AddCors(opt =>
 {
@@ -57,16 +55,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
+
+app.UseCors(allowSpecificOrigins);
 
 app.UseAuthentication();
 app.UseAuthorization(); 
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
-
-app.UseCors(allowSpecificOrigins); 
-
 app.Run();

@@ -1,7 +1,7 @@
 ﻿namespace ModelLayer
 {
-    public class DataGridModel : ExpensesIncomesModel
+    public class DataGridModel : PersonalIncomeExpenseDto
     {
-        public decimal pctg_of_saving { get; set; }
+        public decimal pctgOfSaving { get; set; }
     }
 }

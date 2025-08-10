@@ -4,7 +4,7 @@ namespace BusinessInterfaceLayer
 {
     public interface IExpenseIncomeService
     {
-        Task<int> AddorUpdateIncomesExpenses(ExpensesIncomesModel expensesIncomes);
+        Task<int> AddorUpdateIncomesExpenses(AddOrUpdateModel addOrUpdateModel);
         Task<List<DataGridModel>> RetrieveIncomeExpenseTable();
         Task<int> DeleteIncomesExpenses(int personalId);
     }

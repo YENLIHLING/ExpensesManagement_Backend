@@ -8,9 +8,8 @@ namespace ModelLayer
         [Key]
         public int id { get; set; }
 
-        [ForeignKey("OrderId")]
+        [ForeignKey("personalId")]
         public int personalId { get; set; }
         public decimal expense { get; set; }
-        public PersonalExpensesModel? personal { get; set; }
     }
 }

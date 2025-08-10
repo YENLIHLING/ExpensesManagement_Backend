@@ -8,7 +8,5 @@ namespace ModelLayer
         public int id { get; set; }
         public required string name { get; set; }
         public string passwordHash { get; set; }
-        public PersonalExpensesModel? PersonalExpenses { get; set; }
-
     }
 }
