@@ -1,9 +1,11 @@
 ﻿using BusinessInterfaceLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer;
 
 namespace WepAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ExpensesManagementController : Controller
